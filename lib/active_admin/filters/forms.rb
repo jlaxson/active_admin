@@ -47,6 +47,17 @@ module ActiveAdmin
         "ActiveAdmin::Inputs::Filter#{as.to_s.camelize}Input"
       end
 
+      # Returns the column for an attribute on the object being searched
+      # if it exists. Otherwise returns nil
+      def column_for(method)
+        @object.object.columns_hash[method.to_s] if @object.object.respond_to?(:columns_hash)
+      end
+
+      # Returns the association reflection for the method if it exists
+      def reflection_for(method)
+        @object.object.reflect_on_association(method) if @object.object.respond_to?(:reflect_on_association)
+      end
+
     end
 
 

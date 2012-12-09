@@ -47,7 +47,7 @@ describe ActiveAdmin::Filters::ViewHelper do
     end
 
     it "should only generate the form once" do
-      body.to_s.scan(/q\[title_contains\]/).size.should == 1
+      body.to_s.scan(/q\[title_cont\]/).size.should == 1
     end
 
     it "should generate a clear filters link" do
@@ -58,16 +58,8 @@ describe ActiveAdmin::Filters::ViewHelper do
   describe "string attribute" do
     let(:body) { filter :title }
 
-    it "should generate a select option for starts with" do
-      body.should have_tag("option", "Starts with", :attributes => { :value => 'title_starts_with' })
-    end
-
-    it "should generate a select option for ends with" do
-      body.should have_tag("option", "Ends with", :attributes => { :value => 'title_ends_with' })
-    end
-
-    it "should generate a select option for contains" do
-      body.should have_tag("option", "Contains", :attributes => { :value => 'title_contains' })
+    it "should generate a search field for a string attribute" do
+      body.should have_tag("input", :attributes => { :name => "q[title_cont]"})
     end
 
     it "should generate a text field for input" do
@@ -133,7 +125,7 @@ describe ActiveAdmin::Filters::ViewHelper do
     let(:body) { filter :body }
 
     it "should generate a search field for a text attribute" do
-      body.should have_tag("input", :attributes => { :name => "q[body_contains]"})
+      body.should have_tag("input", :attributes => { :name => "q[body_cont]"})
     end
 
     it "should have a proper label" do
@@ -145,13 +137,13 @@ describe ActiveAdmin::Filters::ViewHelper do
     let(:body) { filter :created_at }
 
     it "should generate a date greater than" do
-      body.should have_tag("input", :attributes => { :name => "q[created_at_gte]", :class => "datepicker"})
+      body.should have_tag("input", :attributes => { :name => "q[created_at_gteq]", :class => "datepicker"})
     end
     it "should generate a seperator" do
       body.should have_tag("span", :attributes => { :class => "seperator"})
     end
     it "should generate a date less than" do
-      body.should have_tag("input", :attributes => { :name => "q[created_at_lte]", :class => "datepicker"})
+      body.should have_tag("input", :attributes => { :name => "q[created_at_lteq]", :class => "datepicker"})
     end
   end
 
@@ -195,11 +187,11 @@ describe ActiveAdmin::Filters::ViewHelper do
     end
 
     context "non-boolean data types" do
-      let(:body) { filter :title_is_present, :as => :boolean }
+      let(:body) { filter :title_present, :as => :boolean }
 
       it "should create a check box for equals to" do
         body.should have_tag("input", :attributes => {
-                                            :name => "q[title_is_present]",
+                                            :name => "q[title_present]",
                                             :type => "checkbox" })
       end
     end

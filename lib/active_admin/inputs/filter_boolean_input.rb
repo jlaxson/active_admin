@@ -24,7 +24,7 @@ module ActiveAdmin
       end
 
       def search_conditions
-        /(is_true|is_false|is_present|is_blank|is_null|is_not_null)\z/
+        /true|false|present|blank|null|not_null/
       end
 
     end
