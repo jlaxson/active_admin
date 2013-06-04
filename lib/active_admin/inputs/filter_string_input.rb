@@ -21,6 +21,12 @@ module ActiveAdmin
         /_(contains|starts_with|ends_with)\z/
       end
 
+      def default_filters
+        [ [I18n.t('active_admin.contains'),    'cont'],
+          [I18n.t('active_admin.starts_with'), 'start'],
+          [I18n.t('active_admin.ends_with'),   'end'] ]
+      end
+
       def input_name
         method.to_s.match(search_conditions) ? method : "#{method}_cont"
       end
